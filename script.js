@@ -1,51 +1,62 @@
-async function fetchStories() {
-    const username = document.getElementById("username").value.trim();
-    const statusBox = document.getElementById("status");
-    const container = document.getElementById("story-container");
+async function fetchAll() {
+    const user = document.getElementById("username").value.trim();
+    const status = document.getElementById("status");
+    const out = document.getElementById("output");
 
-    if (!username) {
-        statusBox.textContent = "Username दर्ज करें";
-        return;
-    }
+    if (!user) return alert("Username required!");
+    status.innerText = "Fetching...";
+    out.innerHTML = "";
 
-    container.innerHTML = "";
-    statusBox.textContent = "Fetching… (Auto Repair Mode Active)";
+    try {
+        const url = `https://api.storiesig.info/stories/${user}`;
+        let res = await fetch(url);
 
-    // 3 working API endpoints (auto-fallback)
-    const endpoints = [
-        `https://api.lamadava.com/story?username=${username}`,   // Public endpoint
-        `https://instagram-scraper-2023.p.rapidapi.com/story?user=${username}`, // Mirror
-        `https://backup.instaview.workers.dev/?user=${username}` // Cloudflare Worker fallback
-    ];
+        if (!res.ok) throw new Error("API down");
 
-    for (let url of endpoints) {
-        try {
-            const res = await fetch(url, { mode: "cors" });
-            if (!res.ok) continue;
+        let data = await res.json();
 
-            const data = await res.json();
-            if (!data || !data.stories || data.stories.length === 0) continue;
+        status.innerText = "Loaded!";
 
-            statusBox.textContent = "Stories Loaded";
-
-            data.stories.forEach(item => {
-                const block = document.createElement("div");
-                block.className = "story";
-
-                if (item.type === "video") {
-                    block.innerHTML = `<video controls src="${item.url}" width="300"></video>`;
-                } else {
-                    block.innerHTML = `<img src="${item.url}" width="300"/>`;
+        // STORIES
+        if (data.items && data.items.length) {
+            out.innerHTML += "<h3>Stories</h3>";
+            data.items.forEach(s => {
+                if (s.video_versions) {
+                    out.innerHTML += `<div class="media">
+                        <video controls src="${s.video_versions[0].url}"></video>
+                    </div>`;
+                } else if (s.image_versions2) {
+                    out.innerHTML += `<div class="media">
+                        <img src="${s.image_versions2.candidates[0].url}">
+                    </div>`;
                 }
-
-                container.appendChild(block);
             });
-
-            return; // success → stop loop
-        } catch (e) {
-            continue; // try next endpoint
+        } else {
+            out.innerHTML += "<p>No stories found.</p>";
         }
-    }
 
-    statusBox.textContent = "No stories found or API temporarily down.";
+        // HIGHLIGHTS
+        if (data.highlights && data.highlights.length) {
+            out.innerHTML += "<h3>Highlights</h3>";
+            data.highlights.forEach(h => {
+                out.innerHTML += `<div class="media">
+                    <img src="${h.cover}">
+                    <p>${h.title}</p>
+                </div>`;
+            });
+        }
+
+        // POSTS
+        if (data.latest_reels && data.latest_reels.length) {
+            out.innerHTML += "<h3>Latest Posts</h3>";
+            data.latest_reels.forEach(p => {
+                out.innerHTML += `<div class="media">
+                    <img src="${p.thumbnail}">
+                </div>`;
+            });
+        }
+
+    } catch (e) {
+        status.innerText = "Error loading data";
+    }
 }
