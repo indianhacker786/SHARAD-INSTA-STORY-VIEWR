@@ -1,46 +1,96 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sharad Insta — Auto-Repair Story Viewer</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharad Insta Story Viewer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="wrap">
-    <h1 class="title">Sharad Insta Story Viewer</h1>
-    <p class="subtitle">Public Instagram Stories, Highlights, Posts — Auto Repair Mode</p>
-
-    <div class="searchBox">
-      <input id="username" placeholder="Username (बिना @)" />
-      <button id="btnSearch">🔍 खोजें</button>
-    </div>
-
-    <div id="status" class="status">Status: Ready</div>
-
-    <section id="profile" class="card hidden"></section>
-
-    <section id="stories" class="card hidden">
-      <h2>Stories</h2>
-      <div id="storiesList" class="grid"></div>
-    </section>
-
-    <section id="highlights" class="card hidden">
-      <h2>Highlights</h2>
-      <div id="highList" class="grid"></div>
-    </section>
-
-    <section id="posts" class="card hidden">
-      <h2>Posts</h2>
-      <div id="postsList" class="grid"></div>
-    </section>
+<div class="box">
+    <h2 class="title">Sharad Insta Story Viewer 📸</h2>
 
     <p class="note">
-      यह viewer हमेशा लाइव data दिखाता है — पुरानी story कभी repeat नहीं होगी (freshness validator active).
+        Public Instagram Stories, Highlights & Posts देखें।  
+        <br>Auto Repair Mode (latest working endpoint auto-update)
     </p>
-  </div>
 
-  <script src="script.js"></script>
+    <input type="text" id="username" placeholder="उदाहरण: RACER_SHARAD_RATHORE" />
+
+    <button onclick="fetchStories()">🔍 देखें</button>
+
+    <p id="status">Status: Ready</p>
+
+    <div id="result"></div>
+
+    <div class="footer">
+        <a href="privacy.html">Privacy Policy</a> |
+        <a href="terms.html">Terms</a> |
+        <a href="contact.html">Contact</a>
+    </div>
+</div>
+
+<script>
+    async function fetchStories() {
+        const user = document.getElementById("username").value.trim();
+        const status = document.getElementById("status");
+        const result = document.getElementById("result");
+
+        if (!user) {
+            status.innerText = "Status: Please enter username";
+            return;
+        }
+
+        status.innerText = "Status: Fetching stories...";
+        result.innerHTML = "";
+
+        try {
+            const endpointList = [
+                `https://i.instareadbio.com/api/story/${user}`,
+                `https://dd.instaception.net/story/${user}`,
+                `https://i.instaviewer.app/api/story/${user}`
+            ];
+
+            let finalData = null;
+
+            for (let i = 0; i < endpointList.length; i++) {
+                try {
+                    const res = await fetch(endpointList[i]);
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json && json.data && json.data.length > 0) {
+                            finalData = json.data;
+                            break;
+                        }
+                    }
+                } catch {}
+            }
+
+            if (!finalData) {
+                status.innerText = "Status: No stories found or API down";
+                return;
+            }
+
+            status.innerText = "Status: Stories Loaded";
+
+            finalData.forEach(story => {
+                if (story.video_url) {
+                    result.innerHTML += `
+                        <video controls class="storyBox">
+                            <source src="${story.video_url}" type="video/mp4">
+                        </video>`;
+                } else if (story.image_url) {
+                    result.innerHTML += `
+                        <img src="${story.image_url}" class="storyBox" />`;
+                }
+            });
+
+        } catch (err) {
+            status.innerText = "Status: Error loading stories";
+        }
+    }
+</script>
+
 </body>
 </html>
