@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #fafafa;
+  color: #111;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 16px;
+}
+
+.title {
+  text-align: center;
+  color: #d6249f;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.searchBox {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 60%;
+}
+
+button {
+  padding: 10px 14px;
+  background: #0095f6;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.status {
+  text-align: center;
+  margin: 10px 0;
+  color: #555;
+}
+
+.card {
+  background: #fff;
+  padding: 16px;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+}
+
+.hidden { display: none; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+  gap: 12px;
+}
+
+.tile {
+  background: #f7f7f7;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.tile img, .tile video {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.downloadBtn {
+  display: block;
+  background: #111;
+  color: #fff;
+  text-align: center;
+  padding: 6px;
+  margin-top: 6px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.note {
+  text-align: center;
+  margin-top: 14px;
+  color: #777;
+  font-size: 14px;
+}

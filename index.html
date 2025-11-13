@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sharad Insta — Auto-Repair Story Viewer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="wrap">
+    <h1 class="title">Sharad Insta Story Viewer</h1>
+    <p class="subtitle">Public Instagram Stories, Highlights, Posts — Auto Repair Mode</p>
+
+    <div class="searchBox">
+      <input id="username" placeholder="Username (बिना @)" />
+      <button id="btnSearch">🔍 खोजें</button>
+    </div>
+
+    <div id="status" class="status">Status: Ready</div>
+
+    <section id="profile" class="card hidden"></section>
+
+    <section id="stories" class="card hidden">
+      <h2>Stories</h2>
+      <div id="storiesList" class="grid"></div>
+    </section>
+
+    <section id="highlights" class="card hidden">
+      <h2>Highlights</h2>
+      <div id="highList" class="grid"></div>
+    </section>
+
+    <section id="posts" class="card hidden">
+      <h2>Posts</h2>
+      <div id="postsList" class="grid"></div>
+    </section>
+
+    <p class="note">
+      यह viewer हमेशा लाइव data दिखाता है — पुरानी story कभी repeat नहीं होगी (freshness validator active).
+    </p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
