@@ -1,77 +1,58 @@
 body {
-    background: #f4f4f4;
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-.box {
-    background: white;
-    padding: 20px;
-    width: 90%;
-    max-width: 420px;
-    margin: 30px auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: #eef2ff;
+    font-family: Arial;
     text-align: center;
 }
 
-.title {
-    margin: 0;
-    font-size: 22px;
-    color: #d63384;
-    font-weight: bold;
-}
-
-.note {
-    font-size: 14px;
-    opacity: 0.9;
-    margin-bottom: 15px;
+.card {
+    width: 90%;
+    max-width: 430px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px #0001;
 }
 
 input {
-    width: 95%;
+    width: 90%;
     padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #888;
-    border-radius: 5px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    background: #0d6efd;
-    border: none;
+    width: 95%;
+    padding: 12px;
+    background: #1877f2;
     color: white;
+    border: none;
+    border-radius: 8px;
     font-size: 16px;
-    border-radius: 5px;
-    margin-bottom: 15px;
     cursor: pointer;
 }
 
-button:hover {
-    background: #0b5ed7;
+.media {
+    margin-top: 15px;
+    background: #f7f8ff;
+    padding: 10px;
+    border-radius: 10px;
 }
 
-#status {
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-.storyBox {
+.media img, .media video {
     width: 100%;
     border-radius: 10px;
-    margin-top: 15px;
 }
 
 .footer {
     margin-top: 20px;
-    font-size: 13px;
-    opacity: 0.75;
+    font-size: 14px;
+    opacity: 0.7;
 }
 
 .footer a {
+    color: #333;
     text-decoration: none;
-    color: #444;
-    padding: 0 5px;
+    margin: 0 5px;
 }
