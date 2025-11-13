@@ -1,96 +1,30 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sharad Insta Story Viewer</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharad Insta Story Viewer</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+<div class="card">
+    <h2>Sharad Insta Story Viewer 📸</h2>
+    <p>Public Stories • Highlights • Posts</p>
 
-<div class="box">
-    <h2 class="title">Sharad Insta Story Viewer 📸</h2>
+    <input id="username" placeholder="Instagram username">
+    <button onclick="fetchAll()">🔍 देखें</button>
 
-    <p class="note">
-        Public Instagram Stories, Highlights & Posts देखें।  
-        <br>Auto Repair Mode (latest working endpoint auto-update)
-    </p>
+    <div id="status"></div>
+    <div id="output"></div>
 
-    <input type="text" id="username" placeholder="उदाहरण: RACER_SHARAD_RATHORE" />
-
-    <button onclick="fetchStories()">🔍 देखें</button>
-
-    <p id="status">Status: Ready</p>
-
-    <div id="result"></div>
-
-    <div class="footer">
+    <p class="footer">
         <a href="privacy.html">Privacy Policy</a> |
         <a href="terms.html">Terms</a> |
         <a href="contact.html">Contact</a>
-    </div>
+    </p>
 </div>
 
-<script>
-    async function fetchStories() {
-        const user = document.getElementById("username").value.trim();
-        const status = document.getElementById("status");
-        const result = document.getElementById("result");
-
-        if (!user) {
-            status.innerText = "Status: Please enter username";
-            return;
-        }
-
-        status.innerText = "Status: Fetching stories...";
-        result.innerHTML = "";
-
-        try {
-            const endpointList = [
-                `https://i.instareadbio.com/api/story/${user}`,
-                `https://dd.instaception.net/story/${user}`,
-                `https://i.instaviewer.app/api/story/${user}`
-            ];
-
-            let finalData = null;
-
-            for (let i = 0; i < endpointList.length; i++) {
-                try {
-                    const res = await fetch(endpointList[i]);
-                    if (res.ok) {
-                        const json = await res.json();
-                        if (json && json.data && json.data.length > 0) {
-                            finalData = json.data;
-                            break;
-                        }
-                    }
-                } catch {}
-            }
-
-            if (!finalData) {
-                status.innerText = "Status: No stories found or API down";
-                return;
-            }
-
-            status.innerText = "Status: Stories Loaded";
-
-            finalData.forEach(story => {
-                if (story.video_url) {
-                    result.innerHTML += `
-                        <video controls class="storyBox">
-                            <source src="${story.video_url}" type="video/mp4">
-                        </video>`;
-                } else if (story.image_url) {
-                    result.innerHTML += `
-                        <img src="${story.image_url}" class="storyBox" />`;
-                }
-            });
-
-        } catch (err) {
-            status.innerText = "Status: Error loading stories";
-        }
-    }
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
